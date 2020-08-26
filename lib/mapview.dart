@@ -21,6 +21,8 @@ class MapViewState extends State<MapView> {
   double zoomVal = 5.0;
   bool _isVisble = false;
 
+  List<String> litems = ["1","2","Third","4"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +54,56 @@ class MapViewState extends State<MapView> {
                     color: Colors.white,
                     size: 40.0,
                   ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 20.0,
+            right: 0.0,
+            child: FlatButton(
+              onPressed: (){
+                showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context){
+                      return Container(
+                        height: 200.0,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 8.0,
+                            ),
+                            Text(
+                              'Filter By Provinsi',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),SizedBox(
+                              height: 16.0,
+                            ),Expanded(
+                              child: ListView.builder(
+                                  itemCount: litems.length,
+                                  itemBuilder: (BuildContext context, int index){
+                                    return _createListModel(context, 'Jawa Barat', Icons.opacity);
+                                  }),
+                            )
+                          ],
+                        ),
+                      );
+                    }
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                    color: Colors.deepOrange,
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(width: 4, color: Colors.white)),
+                child: Icon(
+                  Icons.filter_list,
+                  color: Colors.white,
+                  size: 20.0,
                 ),
               ),
             ),
@@ -204,4 +256,14 @@ class MapViewState extends State<MapView> {
       ),
     );
   }
+}
+
+ListTile _createListModel(BuildContext context, String name, IconData icon){
+  return ListTile(
+    leading: Icon(icon),
+    title: Text( name
+    ),onTap: (){
+      Navigator.of(context);
+  },
+  );
 }
