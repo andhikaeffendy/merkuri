@@ -73,11 +73,6 @@ class _LupaPasswordState extends State<LupaPassword> {
                       decoration: new InputDecoration(
                         labelText: "Masukkan Email Anda",
                         fillColor: Colors.white,
-                        border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(15.0),
-                          borderSide: new BorderSide(
-                          ),
-                        ),
                         //fillColor: Colors.green
                       ),
                       keyboardType: TextInputType.emailAddress,

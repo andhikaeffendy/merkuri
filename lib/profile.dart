@@ -3,6 +3,7 @@ import 'package:merkuri/apis/api_profile.dart';
 import 'package:merkuri/globals/variable.dart';
 import 'package:merkuri/models/user.dart';
 import 'package:merkuri/page_settings.dart';
+import 'package:merkuri/ubah_password.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -190,10 +191,10 @@ class _ProfileState extends State<Profile> {
                     width: double.infinity,
                     child: FlatButton(
                       onPressed: () {
-//                        Navigator.push(
-//                          context,
-//                          MaterialPageRoute(builder: (context) => Profile()),
-//                        );
+                       Navigator.push(
+                         context,
+                         MaterialPageRoute(builder: (context) => UbahPassword()),
+                       );
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),

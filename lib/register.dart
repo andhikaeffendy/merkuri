@@ -69,11 +69,6 @@ class _RegisterState extends State<Register> {
                         decoration: new InputDecoration(
                           labelText: "Username",
                           fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(15.0),
-                            borderSide: new BorderSide(
-                            ),
-                          ),
                           //fillColor: Colors.green
                         ),
                         keyboardType: TextInputType.emailAddress,
@@ -88,11 +83,6 @@ class _RegisterState extends State<Register> {
                         decoration: new InputDecoration(
                           labelText: "Nama Lengkap",
                           fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(15.0),
-                            borderSide: new BorderSide(
-                            ),
-                          ),
                           //fillColor: Colors.green
                         ),
                         keyboardType: TextInputType.emailAddress,
@@ -160,11 +150,6 @@ class _RegisterState extends State<Register> {
                         decoration: new InputDecoration(
                           labelText: "Asal Kota",
                           fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(15.0),
-                            borderSide: new BorderSide(
-                            ),
-                          ),
                           //fillColor: Colors.green
                         ),
                         keyboardType: TextInputType.emailAddress,
@@ -178,11 +163,6 @@ class _RegisterState extends State<Register> {
                         decoration: new InputDecoration(
                           labelText: "Email",
                           fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(15.0),
-                            borderSide: new BorderSide(
-                            ),
-                          ),
                           //fillColor: Colors.green
                         ),
                         keyboardType: TextInputType.emailAddress,
@@ -196,11 +176,6 @@ class _RegisterState extends State<Register> {
                         decoration: new InputDecoration(
                           labelText: "No Telp",
                           fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(15.0),
-                            borderSide: new BorderSide(
-                            ),
-                          ),
                         ),
                         keyboardType: TextInputType.emailAddress,
                         style: new TextStyle(
@@ -215,11 +190,6 @@ class _RegisterState extends State<Register> {
                         decoration: new InputDecoration(
                           labelText: "Masukkan Password",
                           fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(15.0),
-                            borderSide: new BorderSide(
-                            ),
-                          ),
                           //fillColor: Colors.green
                         ),
                         keyboardType: TextInputType.emailAddress,
@@ -235,11 +205,6 @@ class _RegisterState extends State<Register> {
                         decoration: new InputDecoration(
                           labelText: "Konfirmasi Password",
                           fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(15.0),
-                            borderSide: new BorderSide(
-                            ),
-                          ),
                           //fillColor: Colors.green
                         ),
                         keyboardType: TextInputType.emailAddress,

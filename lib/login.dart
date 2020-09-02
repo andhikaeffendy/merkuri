@@ -81,11 +81,6 @@ class _LoginState extends State<Login> {
                           decoration: new InputDecoration(
                             labelText: "Email",
                             fillColor: Colors.white,
-                            border: new OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(15.0),
-                              borderSide: new BorderSide(
-                              ),
-                            ),
                             //fillColor: Colors.green
                           ),
                           validator: (val) {
@@ -109,11 +104,6 @@ class _LoginState extends State<Login> {
                           decoration: new InputDecoration(
                             labelText: "Password",
                             fillColor: Colors.white,
-                            border: new OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(15.0),
-                              borderSide: new BorderSide(
-                              ),
-                            ),
                             //fillColor: Colors.green
                           ),
                           validator: (val) {

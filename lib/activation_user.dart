@@ -87,11 +87,6 @@ class _ActivationUserState extends State<ActivationUser> {
                         decoration: new InputDecoration(
                           labelText: "Kode Aktifasi",
                           fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(15.0),
-                            borderSide: new BorderSide(
-                            ),
-                          ),
                           //fillColor: Colors.green
                         ),
                         keyboardType: TextInputType.emailAddress,

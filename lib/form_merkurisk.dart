@@ -187,7 +187,6 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                     decoration: new InputDecoration(
                       labelText: "Air",
                       fillColor: Colors.white,
-
                       //fillColor: Colors.green
                     ),
                     keyboardType: TextInputType.emailAddress,
@@ -215,7 +214,6 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                     decoration: new InputDecoration(
                       labelText: "Biodata",
                       fillColor: Colors.white,
-
                       //fillColor: Colors.green
                     ),
                     keyboardType: TextInputType.emailAddress,
