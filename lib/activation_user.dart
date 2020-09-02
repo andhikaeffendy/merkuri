@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:merkuri/apis/api_resend_activation_code.dart';
+import 'package:merkuri/apis/api_user_activation.dart';
+import 'package:merkuri/globals/variable.dart';
 import 'package:merkuri/profile.dart';
 import 'package:merkuri/welcome_page.dart';
 
@@ -8,6 +11,9 @@ class ActivationUser extends StatefulWidget {
 }
 
 class _ActivationUserState extends State<ActivationUser> {
+
+  final codeEditTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,6 +83,7 @@ class _ActivationUserState extends State<ActivationUser> {
                       ),SizedBox(
                         height: 24.0,
                       ),TextFormField(
+                        controller: codeEditTextController,
                         decoration: new InputDecoration(
                           labelText: "Kode Aktifasi",
                           fillColor: Colors.white,
@@ -93,14 +100,44 @@ class _ActivationUserState extends State<ActivationUser> {
                         ),
                       ),SizedBox(
                         height: 16.0,
-                      ),SizedBox(
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          showCircular(context);
+                          futureApiResendActivationCode(current_user.email).then((value){
+                            Navigator.of(context, rootNavigator: true).pop();
+                            if(value.isSuccess()){
+                              alertDialog(context, "Kirim Ulang Kode Berhasil", "");
+                            }else{
+                              alertDialog(context, "Kirim Ulang Kode Gagal", "");
+                            }
+                          });
+                        },
+                        child: Text(
+                          'Kirim Ulang',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16.0,
+                      ),
+                      SizedBox(
                         width: double.infinity,
                         child: FlatButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => WelcomePage()),
-                            );
+                            showCircular(context);
+                            futureApiUserActivation(current_user.email, codeEditTextController.text)
+                                .then((value){
+                              Navigator.of(context, rootNavigator: true).pop();
+                              if(value.isSuccess()) {
+                                nextPage(context, WelcomePage());
+                              } else {
+                                alertDialog(context, "Aktivasi Gagal", value.message);
+                              }
+                            });
                           },
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),

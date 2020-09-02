@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:merkuri/apis/api_reset_password.dart';
+import 'package:merkuri/globals/variable.dart';
+import 'package:merkuri/login.dart';
 import 'package:merkuri/main.dart';
 
 class LupaPasswordDone extends StatefulWidget {
@@ -51,6 +54,15 @@ class _LupaPasswordDoneState extends State<LupaPasswordDone> {
                     width: double.infinity,
                     child: FlatButton(
                       onPressed: () {
+                        showCircular(context);
+                        futureApiResetPassword(current_user.email).then((value){
+                          Navigator.of(context, rootNavigator: true).pop();
+                          if(value.isSuccess()){
+                            alertDialog(context, "Reset Password Berhasil", "");
+                          } else {
+                            alertDialog(context, "Reset Password Gagal", value.message);
+                          }
+                        });
 //                    Navigator.push(
 //                      context,
 //                      MaterialPageRoute(builder: (context) => MyHomePage()),
@@ -78,10 +90,7 @@ class _LupaPasswordDoneState extends State<LupaPasswordDone> {
                     width: double.infinity,
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyHomePage()),
-                        );
+                        startNewPage(context, Login());
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),

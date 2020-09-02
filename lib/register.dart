@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:merkuri/activation_user.dart';
+import 'package:merkuri/apis/api_register.dart';
+import 'package:merkuri/globals/variable.dart';
+import 'package:merkuri/models/user.dart';
 import 'package:merkuri/welcome_page.dart';
 
 class Register extends StatefulWidget {
@@ -12,6 +15,11 @@ class _RegisterState extends State<Register> {
 
   DateTime selectedDate = DateTime.now();
   String _date = "Tanggal lahir";
+
+  final emailEditTextController = TextEditingController();
+  final passwordEditTextController = TextEditingController();
+  final passwordConfirmationEditTextController = TextEditingController();
+  final nameEditTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +84,7 @@ class _RegisterState extends State<Register> {
                         height: 16.0,
                       ),
                       TextFormField(
+                        controller: nameEditTextController,
                         decoration: new InputDecoration(
                           labelText: "Nama Lengkap",
                           fillColor: Colors.white,
@@ -165,6 +174,7 @@ class _RegisterState extends State<Register> {
                       ),SizedBox(
                         height: 16.0,
                       ),TextFormField(
+                        controller: emailEditTextController,
                         decoration: new InputDecoration(
                           labelText: "Email",
                           fillColor: Colors.white,
@@ -200,9 +210,10 @@ class _RegisterState extends State<Register> {
                         height: 16.0,
                       ),
                       TextFormField(
+                        controller: passwordEditTextController,
                         obscureText: true,
                         decoration: new InputDecoration(
-                          labelText: "Konfirmasi Password",
+                          labelText: "Masukkan Password",
                           fillColor: Colors.white,
                           border: new OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(15.0),
@@ -219,9 +230,10 @@ class _RegisterState extends State<Register> {
                         height: 16.0,
                       ),
                       TextFormField(
+                        controller: passwordConfirmationEditTextController,
                         obscureText: true,
                         decoration: new InputDecoration(
-                          labelText: "Masukkan Password",
+                          labelText: "Konfirmasi Password",
                           fillColor: Colors.white,
                           border: new OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(15.0),
@@ -240,10 +252,18 @@ class _RegisterState extends State<Register> {
                         width: double.infinity,
                         child: FlatButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ActivationUser()),
-                            );
+                            showCircular(context);
+                            current_user = User(null, emailEditTextController.text, nameEditTextController.text, null);
+                            futureApiRegister(emailEditTextController.text, nameEditTextController.text,
+                                passwordEditTextController.text, passwordConfirmationEditTextController.text)
+                                .then((value) {
+                                  Navigator.of(context, rootNavigator: true).pop();
+                                  if(value.isSuccess()){
+                                    nextPage(context, ActivationUser());
+                                  } else {
+                                    alertDialog(context, "Register Gagal", value.message);
+                                  }
+                            });
                           },
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),

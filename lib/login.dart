@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:merkuri/apis/api_login.dart';
 import 'package:merkuri/main.dart';
 import 'package:merkuri/register.dart';
-
+import 'package:merkuri/globals/variable.dart';
 import 'lupa_password.dart';
-import 'mapview.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -12,7 +12,14 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   @override
+
+  final emailEditTextController = TextEditingController();
+  final passwordEditTextController = TextEditingController();
+
   Widget build(BuildContext context) {
+    // TESTING
+    emailEditTextController.text = "mreza@wiradipa.com";
+    passwordEditTextController.text = "reza123";
     return Scaffold(
       body: Stack(
         children: [
@@ -70,6 +77,7 @@ class _LoginState extends State<Login> {
                           height: 16.0,
                         ),
                         new TextFormField(
+                          controller: emailEditTextController,
                           decoration: new InputDecoration(
                             labelText: "Email",
                             fillColor: Colors.white,
@@ -96,6 +104,7 @@ class _LoginState extends State<Login> {
                           height: 16.0,
                         ),
                         new TextFormField(
+                          controller: passwordEditTextController,
                           obscureText: true,
                           decoration: new InputDecoration(
                             labelText: "Password",
@@ -126,10 +135,16 @@ class _LoginState extends State<Login> {
                           width: double.infinity,
                           child: FlatButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => MyHomePage()),
-                              );
+                              showCircular(context);
+                              futureApiLogin(emailEditTextController.text, passwordEditTextController.text).then((value) {
+                                Navigator.of(context, rootNavigator: true).pop();
+                                if(value.isSuccess()){
+                                  current_user = value.user;
+                                  startNewPage(context, MyHomePage());
+                                } else {
+                                  alertDialog(context, "Sign In Gagal", value.message);
+                                }
+                              });
                             },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
@@ -152,10 +167,7 @@ class _LoginState extends State<Login> {
                         ),
                         GestureDetector(
                           onTap: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => LupaPassword()),
-                            );
+                            nextPage(context, LupaPassword());
                           },
                           child: Text(
                             'Lupa Password',
@@ -180,10 +192,7 @@ class _LoginState extends State<Login> {
                             ),
                             GestureDetector(
                               onTap: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => Register()),
-                                );
+                                nextPage(context, Register());
                               },
                               child: Text(
                                 'Daftar disini',

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:merkuri/apis/api_logout.dart';
+import 'package:merkuri/apis/api_states.dart';
 import 'package:merkuri/data_merkurisk.dart';
+import 'package:merkuri/globals/variable.dart';
 import 'package:merkuri/login.dart';
 import 'package:merkuri/lupa_password.dart';
 import 'package:merkuri/mapview.dart';
@@ -62,6 +65,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  DateTime backbuttonpressedTime;
   int _selectedDrawerIndex = 0;
 
   _getDrawerItemWidget(int pos) {
@@ -82,8 +86,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _onSelectItem(int index) {
-    setState(() => _selectedDrawerIndex = index);
-    Navigator.of(context).pop(); // close the drawer
+    if(index == 4){
+      showCircular(context);
+      futureApiLogout(current_user.token).then((value){
+        Navigator.of(context, rootNavigator: true).pop();
+        current_user = null;
+        startNewPage(context, Login());
+      });
+    } else {
+      setState(() => _selectedDrawerIndex = index);
+      Navigator.of(context).pop(); // close the drawer
+    }
   }
 
   @override
@@ -101,26 +114,55 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
 
-    return new Scaffold(
-      appBar: new AppBar(
+    if(provinces == null){
+      futureApiState(current_user.token).then((value){
+        provinces = value.data;
+      });
+    }
+
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: new Scaffold(
+        appBar: new AppBar(
         // here we display the title corresponding to the fragment
         // you can instead choose to have a static title
         title: new Text(widget.drawerItems[_selectedDrawerIndex].title),
       ),
-      drawer: new Drawer(
-        child: new Column(
-          children: <Widget>[
-            new UserAccountsDrawerHeader(
-                accountName: new Text("Yatogami"), accountEmail: Text('andhikaeffendy14@gmai.com'), currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(
+        drawer: new Drawer(
+          child: new Column(
+            children: <Widget>[
+              new UserAccountsDrawerHeader(
+                accountName: new Text(current_user.name), accountEmail: Text(current_user.email), currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage(
                   'https://i.pinimg.com/736x/63/7a/52/637a524d0c56abac8e43918b6a05643c.jpg'),
-              radius: 30.0,
-            ),),
-            new Column(children: drawerOptions)
-          ],
+                  radius: 30.0,
+                ),
+              ),
+              new Column(children: drawerOptions)
+            ],
+          ),
         ),
+        body: _getDrawerItemWidget(_selectedDrawerIndex),
       ),
-      body: _getDrawerItemWidget(_selectedDrawerIndex),
     );
+  }
+
+  Future<bool> _onBackPressed() async {
+    if(_selectedDrawerIndex == 0){
+      DateTime currentTime = DateTime.now();
+      //Statement 1 Or statement2
+      bool backButton = backbuttonpressedTime == null ||
+          currentTime.difference(backbuttonpressedTime) > Duration(seconds: 3);
+      if (backButton) {
+        backbuttonpressedTime = currentTime;
+        return false;
+      }
+      return true;
+    } else {
+      setState(() {
+        _selectedDrawerIndex = 0;
+      });
+      return false;
+    }
   }
 }

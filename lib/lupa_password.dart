@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:merkuri/apis/api_reset_password.dart';
+import 'package:merkuri/globals/variable.dart';
 import 'package:merkuri/lupa_password_done.dart';
+import 'package:merkuri/models/user.dart';
 
 class LupaPassword extends StatefulWidget {
   @override
@@ -7,6 +10,9 @@ class LupaPassword extends StatefulWidget {
 }
 
 class _LupaPasswordState extends State<LupaPassword> {
+
+  final emailEditTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +69,7 @@ class _LupaPasswordState extends State<LupaPassword> {
                     ),SizedBox(
                       height: 24.0,
                     ),TextFormField(
+                      controller: emailEditTextController,
                       decoration: new InputDecoration(
                         labelText: "Masukkan Email Anda",
                         fillColor: Colors.white,
@@ -83,10 +90,16 @@ class _LupaPasswordState extends State<LupaPassword> {
                       width: double.infinity,
                       child: FlatButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => LupaPasswordDone()),
-                          );
+                          showCircular(context);
+                          futureApiResetPassword(emailEditTextController.text).then((value){
+                            Navigator.of(context, rootNavigator: true).pop();
+                            if(value.isSuccess()){
+                              current_user = new User(null, emailEditTextController.text, null, null);
+                              nextPage(context, LupaPasswordDone());
+                            } else {
+                              alertDialog(context, "Reset Password Gagal", value.message);
+                            }
+                          });
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),

@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:merkuri/apis/api_create_mercurisk.dart';
+import 'package:merkuri/apis/api_districts.dart';
+import 'package:merkuri/apis/api_states.dart';
+import 'package:merkuri/apis/api_sub_districts.dart';
 import 'package:merkuri/detail_merkury.dart';
+import 'package:merkuri/globals/variable.dart';
 import 'package:merkuri/mapview.dart';
+import 'package:merkuri/models/district.dart';
+import 'package:merkuri/models/province.dart';
+import 'package:merkuri/models/sub_district.dart';
 
 class FormMerkurisk extends StatefulWidget {
   @override
@@ -9,27 +17,30 @@ class FormMerkurisk extends StatefulWidget {
 
 class _FormMerkuriskState extends State<FormMerkurisk> {
 
-  listDropDown selectedProvinsi;
-  listDropDown selectedKota;
-  listDropDown selectedKecamatan;
-  List<listDropDown> provinsi = <listDropDown>[
-    const listDropDown('Jawa Barat'),
-    const listDropDown('Jawa Timur'),
-    const listDropDown('Jawa Tengah')
-  ];
-  List<listDropDown> kota = <listDropDown>[
-    const listDropDown('Jawa Barat'),
-    const listDropDown('Jawa Timur'),
-    const listDropDown('Jawa Tengah')
-  ];
-  List<listDropDown> kecamatan = <listDropDown>[
-    const listDropDown('Jawa Barat'),
-    const listDropDown('Jawa Timur'),
-    const listDropDown('Jawa Tengah')
-  ];
+  List<District> listDistricts = new List();
+  List<SubDistrict> listSubDistricts = new List();
+
+  Province selectedProvince;
+  District selectedDistrict;
+  SubDistrict selectedSubDistrict;
+
+  final soilController = TextEditingController();
+  final airController = TextEditingController();
+  final waiterController = TextEditingController();
+  final humanController = TextEditingController();
+  final biotaController = TextEditingController();
+  final sedimentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    if(provinces == null){
+      futureApiState(current_user.token).then((value){
+        setState(() {
+          provinces = value.data;
+        });
+      });
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -71,65 +82,80 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   SizedBox(
                     height: 16.0,
                   ),
-                  DropdownButton<listDropDown>(
+                  DropdownButton<Province>(
                     isExpanded: true,
                     hint: new Text("Pilih Provinsi"),
-                    value: selectedProvinsi,
-                    onChanged: (listDropDown newValue) {
-                      setState(() {
-                        selectedProvinsi = newValue;
+                    value: selectedProvince,
+                    onChanged: (value) {
+                      showCircular(context);
+                      futureApiDistrict(current_user.token, value.id).then((apiValue){
+                        Navigator.of(context, rootNavigator: true).pop();
+                        if(apiValue.isSuccess()){
+                          setState(() {
+                            listDistricts = apiValue.data;
+                            selectedProvince = value;
+                          });
+                        }
                       });
                     },
-                    items: provinsi.map((listDropDown user) {
-                      return new DropdownMenuItem<listDropDown>(
-                        value: user,
+                    items: provinces.map((province) {
+                      return new DropdownMenuItem<Province>(
+                        value: province,
                         child: new Text(
-                          user.name,
+                          province.name,
                           style: new TextStyle(color: Colors.black),
                         ),
                       );
                     }).toList(),
                   ),SizedBox(
                     height: 16.0,
-                  ),DropdownButton<listDropDown>(
+                  ),DropdownButton<District>(
                     isExpanded: true,
                     hint: new Text("Pilih Kota/Kab"),
-                    value: selectedKota,
-                    onChanged: (listDropDown newValue) {
-                      setState(() {
-                        selectedKota = newValue;
+                    value: selectedDistrict,
+                    onChanged: (value) {
+                      showCircular(context);
+                      futureApiSubDistrict(current_user.token, value.id).then((apiValue){
+                        Navigator.of(context, rootNavigator: true).pop();
+                        if(apiValue.isSuccess()){
+                          setState(() {
+                            listSubDistricts = apiValue.data;
+                            selectedDistrict = value;
+                          });
+                        }
                       });
                     },
-                    items: kota.map((listDropDown user) {
-                      return new DropdownMenuItem<listDropDown>(
-                        value: user,
+                    items: listDistricts.map((district) {
+                      return new DropdownMenuItem<District>(
+                        value: district,
                         child: new Text(
-                          user.name,
+                          district.name,
                           style: new TextStyle(color: Colors.black),
                         ),
                       );
                     }).toList(),
                   ),SizedBox(
                     height: 16.0,
-                  ),DropdownButton<listDropDown>(
+                  ),DropdownButton<SubDistrict>(
                     isExpanded: true,
                     hint: new Text("Pilih Kecamatan"),
-                    value: selectedKecamatan,
-                    onChanged: (listDropDown newValue) {
+                    value: selectedSubDistrict,
+                    onChanged: (value) {
                       setState(() {
-                        selectedKecamatan = newValue;
+                        selectedSubDistrict = value;
                       });
                     },
-                    items: kecamatan.map((listDropDown user) {
-                      return new DropdownMenuItem<listDropDown>(
-                        value: user,
+                    items: listSubDistricts.map((subdistrict) {
+                      return new DropdownMenuItem<SubDistrict>(
+                        value: subdistrict,
                         child: new Text(
-                          user.name,
+                          subdistrict.name,
                           style: new TextStyle(color: Colors.black),
                         ),
                       );
                     }).toList(),
                   ),TextFormField(
+                    controller: soilController,
                     decoration: new InputDecoration(
                       labelText: "Soil",
                       fillColor: Colors.white,
@@ -143,6 +169,7 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   ),SizedBox(
                     height: 16.0,
                   ),TextFormField(
+                    controller: waiterController,
                     decoration: new InputDecoration(
                       labelText: "Walter",
                       fillColor: Colors.white,
@@ -156,6 +183,7 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   ),SizedBox(
                     height: 16.0,
                   ),TextFormField(
+                    controller: airController,
                     decoration: new InputDecoration(
                       labelText: "Air",
                       fillColor: Colors.white,
@@ -169,6 +197,7 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   ),SizedBox(
                     height: 16.0,
                   ),TextFormField(
+                    controller: humanController,
                     decoration: new InputDecoration(
                       labelText: "Human",
                       fillColor: Colors.white,
@@ -182,6 +211,7 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   ),SizedBox(
                     height: 16.0,
                   ),TextFormField(
+                    controller: biotaController,
                     decoration: new InputDecoration(
                       labelText: "Biodata",
                       fillColor: Colors.white,
@@ -195,6 +225,7 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   ),SizedBox(
                     height: 16.0,
                   ),TextFormField(
+                    controller: sedimentController,
                     decoration: new InputDecoration(
                       labelText: "Sedimen",
                       fillColor: Colors.white,
@@ -211,10 +242,19 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                     width: double.infinity,
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DetailMerkury()),
-                        );
+                        showCircular(context);
+                        futureApiCreateMercurisk(current_user.token, selectedProvince.id,
+                            selectedDistrict.id, selectedSubDistrict.id, int.parse(airController.text),
+                            int.parse(waiterController.text), int.parse(soilController.text),
+                            int.parse(humanController.text), int.parse(biotaController.text),
+                            int.parse(sedimentController.text)).then((value){
+                              Navigator.of(context, rootNavigator: true).pop();
+                              if(value.isSuccess()){
+                                Navigator.of(context, rootNavigator: true).pop();
+                              } else {
+                                alertDialog(context, "Input Mercurisk Gagal", value.message);
+                              }
+                        });
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),

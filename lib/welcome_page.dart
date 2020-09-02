@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:merkuri/globals/variable.dart';
+import 'package:merkuri/login.dart';
 import 'package:merkuri/main.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -64,10 +66,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     width: double.infinity,
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyHomePage()),
-                        );
+                        startNewPage(context, Login());
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
