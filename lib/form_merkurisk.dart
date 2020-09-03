@@ -157,7 +157,7 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   ),TextFormField(
                     controller: soilController,
                     decoration: new InputDecoration(
-                      labelText: "Soil",
+                      labelText: "Kadar Merkuri di Tanah",
                       fillColor: Colors.white,
 
                       //fillColor: Colors.green
@@ -171,7 +171,7 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   ),TextFormField(
                     controller: waiterController,
                     decoration: new InputDecoration(
-                      labelText: "Walter",
+                      labelText: "Kadar Merkuri di air",
                       fillColor: Colors.white,
 
                       //fillColor: Colors.green
@@ -185,7 +185,7 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   ),TextFormField(
                     controller: airController,
                     decoration: new InputDecoration(
-                      labelText: "Air",
+                      labelText: "Kadar Merkuri di udara",
                       fillColor: Colors.white,
                       //fillColor: Colors.green
                     ),
@@ -198,7 +198,7 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   ),TextFormField(
                     controller: humanController,
                     decoration: new InputDecoration(
-                      labelText: "Human",
+                      labelText: "Kadar Merkuri di Manusia",
                       fillColor: Colors.white,
 
                       //fillColor: Colors.green
@@ -212,7 +212,7 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   ),TextFormField(
                     controller: biotaController,
                     decoration: new InputDecoration(
-                      labelText: "Biodata",
+                      labelText: "Kadar Merkuri di Biodata",
                       fillColor: Colors.white,
                       //fillColor: Colors.green
                     ),
@@ -225,7 +225,7 @@ class _FormMerkuriskState extends State<FormMerkurisk> {
                   ),TextFormField(
                     controller: sedimentController,
                     decoration: new InputDecoration(
-                      labelText: "Sedimen",
+                      labelText: "Kadar Merkuri di Sedimen",
                       fillColor: Colors.white,
 
                       //fillColor: Colors.green

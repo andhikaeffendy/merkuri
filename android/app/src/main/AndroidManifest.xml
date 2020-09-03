@@ -11,7 +11,7 @@
     <uses-feature android:name="android.hardware.location.gps" />
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="merkuri"
+        android:label="Merkurisk"
         android:icon="@mipmap/ic_launcher">
 
         <meta-data

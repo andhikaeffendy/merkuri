@@ -220,6 +220,9 @@ class MapViewState extends State<MapView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 8.0,
+                    ),
                     Text('Layer Info'),
                     SizedBox(
                       height: 12.0,
@@ -248,7 +251,7 @@ class MapViewState extends State<MapView> {
                           width: 8.0,
                         ),
                         Text(
-                            'Kadar merkuri dalam udara : ' + getAir(dataMarker).toString()
+                            'Merkuri di udara : ' + getAir(dataMarker).toString()
                         )
                       ],
                     ),SizedBox(
@@ -263,7 +266,7 @@ class MapViewState extends State<MapView> {
                           width: 8.0,
                         ),
                         Text(
-                            'Kadar merkuri dalam Tanah : ' + getSoil(dataMarker).toString()
+                            'Merkuri di tanah : ' + getSoil(dataMarker).toString()
                         )
                       ],
                     ),SizedBox(
@@ -279,7 +282,55 @@ class MapViewState extends State<MapView> {
                           width: 8.0,
                         ),
                         Text(
-                            'Kadar merkuri dalam Air : ' + getWaiter(dataMarker).toString()
+                            'Merkuri di air : ' + getWaiter(dataMarker).toString()
+                        )
+                      ],
+                    ),SizedBox(
+                      height: 12.0,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.data_usage,
+                          color: Colors.orange,
+                        ),
+                        SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                            'Merkuri di Sedimen : ' + getWaiter(dataMarker).toString()
+                        )
+                      ],
+                    ),SizedBox(
+                      height: 12.0,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.perm_data_setting,
+                          color: Colors.orange,
+                        ),
+                        SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                            'Merkuri di Biodata : ' + getWaiter(dataMarker).toString()
+                        )
+                      ],
+                    ),SizedBox(
+                      height: 12.0,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.person,
+                          color: Colors.orange,
+                        ),
+                        SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                            'Merkuri di Manusia : ' + getWaiter(dataMarker).toString()
                         )
                       ],
                     ),
